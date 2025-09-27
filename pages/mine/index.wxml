@@ -1,0 +1,4 @@
+<view class="container">
+ <view class="tab-page-title">我的</view>
+ <view>这里将展示收藏、历史、设置等个人中心内容。</view>
+</view>

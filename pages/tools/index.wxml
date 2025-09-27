@@ -1,0 +1,4 @@
+<view class="container">
+ <view class="tab-page-title">工具</view>
+ <view>这里将提供调音器、节拍器等常用工具入口。</view>
+</view>

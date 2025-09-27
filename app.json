@@ -1,0 +1,40 @@
+{
+  "pages": [
+    "pages/library/index",
+    "pages/tools/index",
+    "pages/mine/index"
+  ],
+  "window": {
+    "navigationBarTitleText": "口琴工具集",
+    "navigationBarBackgroundColor": "#ffffff",
+    "navigationBarTextStyle": "black",
+    "backgroundTextStyle": "light",
+    "backgroundColor": "#f7f7f7"
+  },
+  "tabBar": {
+    "color": "#666666",
+    "selectedColor": "#07c160",
+    "backgroundColor": "#ffffff",
+    "borderStyle": "black",
+    "list": [
+      {
+        "pagePath": "pages/library/index",
+        "text": "谱库",
+        "iconPath": "assets/pages/library/icons/library_black.png",
+        "selectedIconPath": "assets/pages/library/icons/library_blue.png"
+      },
+      {
+        "pagePath": "pages/tools/index",
+        "text": "工具",
+        "iconPath": "assets/pages/tools/icons/harmonica_black.png",
+        "selectedIconPath": "assets/pages/tools/icons/harmonica_blue.png"
+      },
+      {
+        "pagePath": "pages/mine/index",
+        "text": "我的",
+        "iconPath": "assets/pages/mine/icons/user_black.png",
+        "selectedIconPath": "assets/pages/mine/icons/user_blue.png"
+      }
+    ]
+  }
+}

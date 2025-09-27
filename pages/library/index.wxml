@@ -1,0 +1,4 @@
+﻿<view class="container">
+ <view class="tab-page-title">谱库</view>
+ <view>这里将展示口琴曲谱列表与搜索。</view>
+</view>
