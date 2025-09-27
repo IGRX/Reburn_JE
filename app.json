@@ -2,6 +2,7 @@
   "pages": [
     "pages/library/index",
     "pages/tools/index",
+    "pages/tools/transposer/index",
     "pages/mine/index"
   ],
   "window": {

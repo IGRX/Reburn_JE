@@ -1,4 +1,50 @@
 <view class="container">
- <view class="tab-page-title">工具</view>
- <view>这里将提供调音器、节拍器等常用工具入口。</view>
+  <view class="page-header">
+    <view class="page-title">工具</view>
+    <view class="page-subtitle">常用音乐工具集合</view>
+  </view>
+  
+  <view class="tools-grid">
+    <!-- 左列 -->
+    <view class="tools-column left-column">
+      <view class="tool-item" bindtap="onToolTap" data-tool="{{tools[0].id}}">
+        <view class="tool-icon">{{tools[0].icon}}</view>
+        <view class="tool-name">{{tools[0].name}}</view>
+        <view class="tool-desc">{{tools[0].desc}}</view>
+      </view>
+    <!-- 单个按钮的wxml块，可能后续会用wx:for重写罢 -->
+      <view class="tool-item" bindtap="onToolTap" data-tool="{{tools[1].id}}">
+        <view class="tool-icon">{{tools[1].icon}}</view>
+        <view class="tool-name">{{tools[1].name}}</view>
+        <view class="tool-desc">{{tools[1].desc}}</view>
+      </view>
+      
+      <view class="tool-item" bindtap="onToolTap" data-tool="{{tools[2].id}}">
+        <view class="tool-icon">{{tools[2].icon}}</view>
+        <view class="tool-name">{{tools[2].name}}</view>
+        <view class="tool-desc">{{tools[2].desc}}</view>
+      </view>
+    </view>
+    
+    <!-- 右列 -->
+    <view class="tools-column right-column">
+      <view class="tool-item" bindtap="onToolTap" data-tool="{{tools[3].id}}">
+        <view class="tool-icon">{{tools[3].icon}}</view>
+        <view class="tool-name">{{tools[3].name}}</view>
+        <view class="tool-desc">{{tools[3].desc}}</view>
+      </view>
+      
+      <view class="tool-item" bindtap="onToolTap" data-tool="{{tools[4].id}}">
+        <view class="tool-icon">{{tools[4].icon}}</view>
+        <view class="tool-name">{{tools[4].name}}</view>
+        <view class="tool-desc">{{tools[4].desc}}</view>
+      </view>
+      
+      <view class="tool-item" bindtap="onToolTap" data-tool="{{tools[5].id}}">
+        <view class="tool-icon">{{tools[5].icon}}</view>
+        <view class="tool-name">{{tools[5].name}}</view>
+        <view class="tool-desc">{{tools[5].desc}}</view>
+      </view>
+    </view>
+  </view>
 </view>

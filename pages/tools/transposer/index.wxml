@@ -1,0 +1,88 @@
+<view class="container">
+  <!-- 页面标题 -->
+  <view class="page-header">
+    <view class="page-title">转调器</view>
+    <view class="page-subtitle">轻松转换曲谱调性</view>
+  </view>
+
+  <!-- 调性选择区域 -->
+  <view class="key-selection">
+    <view class="key-row">
+      <view class="key-label">原调性</view>
+      <picker header-text="原调性" mode="selector" range="{{keyOptions}}" range-key="name" value="{{fromKeyIndex}}" bindchange="onFromKeyChange">
+        <view class="key-picker">
+          <text class="key-text">{{keyOptions[fromKeyIndex].name}}</text>
+          <text class="key-arrow">▼</text>
+        </view>
+      </picker>
+    </view>
+    
+    <view class="key-arrow-icon">→</view>
+    
+    <view class="key-row">
+      <view class="key-label">目标调性</view>
+      <picker mode="selector" range="{{keyOptions}}" range-key="name" value="{{toKeyIndex}}" bindchange="onToKeyChange">
+        <view class="key-picker">
+          <text class="key-text">{{keyOptions[toKeyIndex].name}}</text>
+          <text class="key-arrow">▼</text>
+        </view>
+      </picker>
+    </view>
+  </view>
+
+  <!-- 输入区域 -->
+  <view class="input-section">
+    <view class="section-title">
+      <text class="title-text">输入曲谱</text>
+      <view class="input-actions">
+        <button class="action-btn" size="mini" bindtap="onClearInput">清空</button>
+        <button class="action-btn" size="mini" bindtap="onPasteInput">粘贴</button>
+      </view>
+    </view>
+    <textarea 
+      class="input-textarea" 
+      placeholder="请输入需要转换的曲谱内容，仅支持JE谱"
+      value="{{inputText}}"
+      bindinput="onInputChange"
+      maxlength="5000"
+      show-confirm-bar="{{false}}"
+    ></textarea>
+    <view class="input-counter">{{inputText.length}}/5000</view>
+  </view>
+
+  <!-- 转换按钮 -->
+  <view class="convert-section">
+    <button 
+      class="convert-btn {{canConvert ? 'active' : 'disabled'}}" 
+      bindtap="onConvert"
+      disabled="{{!canConvert}}"
+    >
+      <text class="btn-icon">🔄</text>
+      <text class="btn-text">开始转换</text>
+    </button>
+  </view>
+
+  <!-- 输出区域 -->
+  <view class="output-section">
+    <view class="section-title">
+      <text class="title-text">转换结果</text>
+      <view class="output-actions">
+        <button class="action-btn" size="mini" bindtap="onCopyOutput">复制</button>
+        <button class="action-btn" size="mini" bindtap="onClearOutput">清空</button>
+      </view>
+    </view>
+    <view class="output-content">
+      <text class="output-text">{{outputText || '转换结果将显示在这里...'}}</text>
+    </view>
+  </view>
+
+  <!-- 使用说明 -->
+  <view class="help-section">
+    <view class="help-title">使用说明</view>
+    <view class="help-content">
+      <view class="help-item">• 仅支持JE谱法（如：(7) 1 2 3 [1]）</view>
+      <view class="help-item">• 支持带升降号的记谱方式（如：b（7）#1 b2）</view>
+      <view class="help-item">• 暂不支持和弦标记（如：C Am F G）</view>
+    </view>
+  </view>
+</view>
