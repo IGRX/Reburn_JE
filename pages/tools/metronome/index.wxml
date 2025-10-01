@@ -1,0 +1,100 @@
+<view class="container">
+  <view class="page-header">
+    <view class="page-title">节拍器</view>
+    <view class="page-subtitle">稳定节拍，精准练习</view>
+  </view>
+
+  <!-- BPM控制区域 -->
+  <view class="bpm-section">
+    <view class="bpm-display">
+      <view class="bpm-value">{{bpm}}</view>
+      <view class="bpm-label">BPM</view>
+    </view>
+    
+    <view class="bpm-slider-container">
+      <view class="bpm-range">
+        <text class="range-label">{{minBpm}}</text>
+        <text class="range-label">{{maxBpm}}</text>
+      </view>
+      <slider 
+        class="bpm-slider"
+        min="{{minBpm}}"
+        max="{{maxBpm}}"
+        value="{{bpm}}"
+        step="1"
+        bindchange="onBpmChange"
+        activeColor="#007AFF"
+        backgroundColor="#E5E5E5"
+        block-size="20"
+      />
+    </view>
+  </view>
+
+  <!-- 节拍器主体 -->
+  <view class="metronome-main">
+    <!-- 节拍器圆形显示 -->
+    <view class="metronome-circle {{beatAnimation ? 'beat-animation' : ''}}">
+      <view class="beat-indicator">
+        <view class="beat-number">{{currentBeat}}</view>
+        <view class="beat-total">/ {{beatsPerMeasure}}</view>
+      </view>
+    </view>
+
+    <!-- 播放控制按钮 -->
+    <view class="play-controls">
+      <button 
+        class="play-button {{isPlaying ? 'playing' : ''}}"
+        bindtap="onTogglePlay"
+      >
+        <view class="button-icon">{{isPlaying ? '⏸️' : '▶️'}}</view>
+        <view class="button-text">{{isPlaying ? '停止' : '开始'}}</view>
+      </button>
+    </view>
+  </view>
+
+  <!-- 设置区域 -->
+  <view class="settings-section">
+    <!-- 每小节拍数设置 -->
+    <view class="setting-item">
+      <view class="setting-label">每小节拍数</view>
+      <view class="beats-selector">
+        <view 
+          class="beat-option {{beatsPerMeasure === 2 ? 'active' : ''}}"
+          bindtap="onBeatsPerMeasureChange"
+          data-value="2"
+        >2</view>
+        <view 
+          class="beat-option {{beatsPerMeasure === 3 ? 'active' : ''}}"
+          bindtap="onBeatsPerMeasureChange"
+          data-value="3"
+        >3</view>
+        <view 
+          class="beat-option {{beatsPerMeasure === 4 ? 'active' : ''}}"
+          bindtap="onBeatsPerMeasureChange"
+          data-value="4"
+        >4</view>
+        <view 
+          class="beat-option {{beatsPerMeasure === 6 ? 'active' : ''}}"
+          bindtap="onBeatsPerMeasureChange"
+          data-value="6"
+        >6</view>
+      </view>
+    </view>
+
+    <!-- 音效开关 -->
+    <view class="setting-item">
+      <view class="setting-label">音效</view>
+      <switch 
+        class="sound-switch"
+        checked="{{soundEnabled}}"
+        bindchange="onToggleSound"
+        color="#007AFF"
+      />
+    </view>
+
+    <!-- 重置按钮 -->
+    <view class="setting-item">
+      <button class="reset-button" bindtap="onReset">重置</button>
+    </view>
+  </view>
+</view>

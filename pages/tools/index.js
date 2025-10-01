@@ -13,7 +13,7 @@ Page({
         name: '节拍器',
         desc: '稳定节拍',
         icon: '⏰',
-        available: false
+        available: true
       },
       {
         id: 'chord',
@@ -100,17 +100,33 @@ Page({
   // 转调器
   openTransposer() {
     wx.navigateTo({
-      url: '/pages/tools/transposer/index'
+      url: '/pages/tools/transposer/index',
+      success: () => {
+        console.log('正在跳转至转调器');
+      },
+      fail: () => {
+        console.log('跳转至转调器失败');
+      },
+      complete: () => {
+        console.log('跳转至转调器完成');
+      }
     });
   },
 
   // 节拍器
   openMetronome() {
-    wx.showToast({
-      title: '节拍器功能开发中',
-      icon: 'none'
+    wx.navigateTo({
+      url: '/pages/tools/metronome/index',
+      success: () => {
+        console.log('正在跳转至节拍器');
+      },
+      fail: (error) => {
+        console.log('跳转至节拍器失败', error);
+      },
+      complete: () => {
+        console.log('跳转至节拍器完成');
+      }
     });
-    // TODO: 实现节拍器功能
   },
 
   // 和弦查询

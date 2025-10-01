@@ -168,7 +168,7 @@ Page({
     }
   },
 
-  // 转调核心算法
+  // JE谱转调核心算法
   transposeMusic(text, fromKeyIndex, toKeyIndex) {
     const semitoneDiff = this.data.keyOptions[toKeyIndex].semitones - 
                         this.data.keyOptions[fromKeyIndex].semitones;
@@ -177,52 +177,129 @@ Page({
       return text; // 相同调性，直接返回
     }
 
-    // 简谱数字映射
-    const noteMap = {
-      '1': 0, '2': 2, '3': 4, '4': 5, '5': 7, '6': 9, '7': 11,
-      '1#': 1, '2#': 3, '4#': 6, '5#': 8, '6#': 10,
-      '1b': 11, '2b': 1, '3b': 3, '4b': 4, '5b': 6, '6b': 8, '7b': 10
-    };
-
-    // 反向映射
-    const reverseMap = {
-      0: '1', 1: '1#', 2: '2', 3: '2#', 4: '3', 5: '4', 6: '4#', 
-      7: '5', 8: '5#', 9: '6', 10: '6#', 11: '7'
-    };
-
-    // 和弦映射
-    const chordMap = {
-      'C': 0, 'C#': 1, 'Db': 1, 'D': 2, 'D#': 3, 'Eb': 3, 'E': 4, 'F': 5,
-      'F#': 6, 'Gb': 6, 'G': 7, 'G#': 8, 'Ab': 8, 'A': 9, 'A#': 10, 'Bb': 10, 'B': 11
-    };
-
-    const chordReverseMap = {
-      0: 'C', 1: 'C#', 2: 'D', 3: 'D#', 4: 'E', 5: 'F', 6: 'F#',
-      7: 'G', 8: 'G#', 9: 'A', 10: 'A#', 11: 'B'
-    };
-
     let result = text;
 
-    // 转换简谱数字
-    result = result.replace(/([1-7][#b]?)/g, (match) => {
-      const originalNote = noteMap[match];
-      if (originalNote !== undefined) {
-        const newNote = (originalNote + semitoneDiff + 12) % 12;
-        return reverseMap[newNote] || match;
-      }
-      return match;
+    // 第一步：处理低八度音符 (123) (456) 等
+    debugger;
+    result = result.replace(/\(([1-7#b]+)\)/g, (match, notes) => {
+      return '(' + this.transposeJENoteSequence(notes, semitoneDiff, -1) + ')';
     });
 
-    // 转换和弦标记
-    result = result.replace(/\b([A-G][#b]?)\b/g, (match) => {
-      const originalChord = chordMap[match];
-      if (originalChord !== undefined) {
-        const newChord = (originalChord + semitoneDiff + 12) % 12;
-        return chordReverseMap[newChord] || match;
-      }
-      return match;
+    // 第二步：处理高八度音符 [123] [456] 等
+    result = result.replace(/\[([1-7#b]+)\]/g, (match, notes) => {
+      return '[' + this.transposeJENoteSequence(notes, semitoneDiff, 1) + ']';
+    });
+
+    // 第三步：处理普通八度的连续音符 123 456 等
+    // 使用简单的正则表达式，通过字符边界来避免重复处理
+    result = result.replace(/\b([1-7#b]+)\b/g, (match, notes) => {
+      return this.transposeJENoteSequence(notes, semitoneDiff, 0);
     });
 
     return result;
+  },
+
+  // 处理JE谱音符序列（连续音符）
+  transposeJENoteSequence(notes, semitoneDiff, octaveOffset) {
+    // 将连续的音符字符串分解为单个音符
+    const noteMatches = notes.match(/[1-7][#b]?/g) || [];
+    const transposedNotes = noteMatches.map(note => {
+      return this.transposeJENote(note, semitoneDiff, octaveOffset);
+    });
+    return transposedNotes.join('');
+  },
+
+  // JE谱音符转调处理
+  transposeJENote(note, semitoneDiff, octaveOffset) {
+    // 解析音符
+    let baseNote = note;
+    let accidental = '';
+    
+    if (note.includes('#')) {
+      baseNote = note.replace('#', '');
+      accidental = '#';
+    } else if (note.includes('b')) {
+      baseNote = note.replace('b', '');
+      accidental = 'b';
+    }
+
+    // 获取基础音符的半音值
+    const baseSemitone = this.getBaseSemitone(baseNote);
+    if (baseSemitone === -1) {
+      return note; // 无法识别的音符，直接返回
+    }
+
+    // 计算升降号偏移
+    let accidentalOffset = 0;
+    if (accidental === '#') {
+      accidentalOffset = 1;
+    } else if (accidental === 'b') {
+      accidentalOffset = -1;
+    }
+
+    // 计算新的半音值
+    const originalSemitone = baseSemitone + accidentalOffset;
+    let newSemitone;
+    if (octaveOffset === 0) {
+         newSemitone = (originalSemitone - semitoneDiff + 12) % 12;
+    }
+    else if (octaveOffset === 1) {
+        newSemitone = (12 + originalSemitone - semitoneDiff + 12) % 12;
+    }
+    else if (octaveOffset === -1) {
+        newSemitone = (-12 + originalSemitone - semitoneDiff + 12) % 12;
+    }
+    
+    // 转换为JE谱格式
+    const newNote = this.semitoneToJENote(newSemitone);
+    
+    // 处理八度变化
+    return this.applyOctaveToJENote(newNote, octaveOffset, semitoneDiff);
+  },
+
+  // 获取基础音符的半音值
+  getBaseSemitone(note) {
+    const baseMap = {
+      '1': 0,   // C
+      '2': 2,   // D
+      '3': 4,   // E
+      '4': 5,   // F
+      '5': 7,   // G
+      '6': 9,   // A
+      '7': 11   // B
+    };
+    return baseMap[note] || -1;
+  },
+
+  // 半音值转换为JE谱音符
+  semitoneToJENote(semitone) {
+    const reverseMap = {
+      0: '1', 1: '#1', 2: '2', 3: '#2', 4: '3', 5: '4', 6: '#4',
+      7: '5', 8: '#5', 9: '6', 10: '#6', 11: '7'
+    };
+    return reverseMap[semitone] || '1';
+  },
+
+  // 为JE谱音符应用八度标记
+  applyOctaveToJENote(note, octaveOffset, semitoneDiff) {
+    // 计算转调后的八度变化
+    const baseNote = note.replace(/[#b]/, '');
+    const baseSemitone = this.getBaseSemitone(baseNote);
+    const newSemitone = (baseSemitone + semitoneDiff + 12) % 12;
+    
+    // 计算八度变化（每12个半音为一个八度）
+    const octaveChange = Math.floor((baseSemitone + semitoneDiff) / 12);
+    const finalOctaveOffset = octaveOffset + octaveChange;
+
+    if (finalOctaveOffset < 0) {
+      // 需要低八度标记
+      return '(' + note + ')';
+    } else if (finalOctaveOffset > 0) {
+      // 需要高八度标记
+      return '[' + note + ']';
+    } else {
+      // 普通八度
+      return note;
+    }
   }
 })
