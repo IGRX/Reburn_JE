@@ -1,4 +1,8 @@
 Page({
+    //使用微信小程序的音频API播放节拍音效，提前注册控件，虽然会提示深拷贝可能出错，但是似乎没有出错，能用就行（逃
+    audioContext : wx.createInnerAudioContext({
+        useWebAudioImplement: false
+    }),
   data: {
     // 节拍器状态
     isPlaying: false,
@@ -13,7 +17,7 @@ Page({
     
     // 音效
     soundEnabled: true,
-    
+
     // 定时器
     metronomeTimer: null,
     beatInterval: 0
@@ -25,7 +29,8 @@ Page({
   },
 
   onUnload() {
-    // 页面卸载时停止节拍器
+    // 页面卸载时停止节拍器，释放资源
+    this.audioContext.distory();
     this.stopMetronome();
   },
 
@@ -126,35 +131,25 @@ Page({
 
   // 播放节拍音效
   playBeatSound() {
-    // 使用微信小程序的音频API播放节拍音效
-    const audioContext = wx.createInnerAudioContext({
-      useWebAudioImplement: false
-    });
-    
-    // 根据节拍类型播放不同音效
     if (this.data.currentBeat === this.data.beatsPerMeasure) {
-      // 强拍 - 使用系统提示音
-      audioContext.src = '/assets/pages/tools/sounds/beat_heavy.mp3'
+      // 强拍
+      this.audioContext.src = '/assets/pages/tools/sounds/beat_heavy.mp3'
       wx.vibrateShort({
         type: 'heavy',
         success: res => {
-          audioContext.play()
-          audioContext.stop()
-          audioContext.destroy()
+          this.audioContext.play()
         },
         fail: err => {
           console.log('强拍震动失败', err)
         }
       });
     } else {
-      // 弱拍 - 使用轻震动
-      audioContext.src = '/assets/pages/tools/sounds/beat_light.mp3'
+      // 弱拍
+      this.audioContext.src = '/assets/pages/tools/sounds/beat_light.mp3'
       wx.vibrateShort({
         type: 'light',
         success: res => {
-            audioContext.play()
-            audioContext.stop()
-            audioContext.destroy()
+          this.audioContext.play()
         },
         fail: err => {
           console.log('弱拍震动失败', err)
