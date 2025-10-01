@@ -22,7 +22,7 @@
         max="{{maxBpm}}"
         value="{{bpm}}"
         step="1"
-        bindchange="onBpmChange"
+        bindchanging="onBpmChange"
         activeColor="#007AFF"
         backgroundColor="#E5E5E5"
         block-size="20"

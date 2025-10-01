@@ -128,23 +128,24 @@ Page({
   playBeatSound() {
     // 使用微信小程序的音频API播放节拍音效
     const audioContext = wx.createInnerAudioContext({
-      useWebAudioImplement: true
+      useWebAudioImplement: false
     });
     
     // 根据节拍类型播放不同音效
-    if (this.data.currentBeat === 1) {
+    if (this.data.currentBeat === this.data.beatsPerMeasure) {
       // 强拍 - 使用系统提示音
       audioContext.src = '/assets/pages/tools/sounds/beat_heavy.mp3'
       wx.vibrateShort({
         type: 'heavy',
         success: res => {
           audioContext.play()
+          audioContext.stop()
+          audioContext.destroy()
         },
         fail: err => {
           console.log('强拍震动失败', err)
         }
       });
-      audioContext.destroy()
     } else {
       // 弱拍 - 使用轻震动
       audioContext.src = '/assets/pages/tools/sounds/beat_light.mp3'
@@ -152,14 +153,14 @@ Page({
         type: 'light',
         success: res => {
             audioContext.play()
+            audioContext.stop()
+            audioContext.destroy()
         },
         fail: err => {
           console.log('弱拍震动失败', err)
         }
       });
-      audioContext.destroy()
     }
-    
   },
 
   // 切换音效开关
@@ -182,8 +183,16 @@ Page({
   onReset() {
     this.stopMetronome();
     this.setData({
-      bpm: 120,
-      currentBeat: 1
+        isPlaying: false,
+        bpm: 120,  // 默认BPM
+        minBpm: 30,
+        maxBpm: 200,
+        beatAnimation: false,
+        currentBeat: 1,
+        beatsPerMeasure: 4,
+        soundEnabled: true,
+        metronomeTimer: null,
+        beatInterval: 0
     });
     this.calculateBeatInterval();
   }
