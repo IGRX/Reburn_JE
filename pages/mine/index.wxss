@@ -1,1 +1,117 @@
-/* 页面样式可按需扩展 */
+/* 页面容器 */
+.container {
+  padding: 24rpx;
+  background-color: #f7f8fa;
+  min-height: 100vh;
+}
+
+/* 个人信息卡片 */
+.profile-card {
+  background: #fff;
+  border-radius: 20rpx;
+  padding: 24rpx;
+  display: flex;
+  align-items: center;
+  gap: 24rpx;
+  box-shadow: 0 6rpx 20rpx rgba(0,0,0,0.06);
+}
+
+.avatar-wrap {
+  width: 120rpx;
+  height: 120rpx;
+  border-radius: 50%;
+  overflow: hidden;
+  background: #f0f0f0;
+}
+
+.avatar {
+  width: 100%;
+  height: 100%;
+}
+
+.user-info {
+  flex: 1;
+}
+
+.nickname {
+  font-size: 32rpx;
+  font-weight: 600;
+  color: #333;
+}
+
+.subtitle {
+  margin-top: 6rpx;
+  font-size: 24rpx;
+  color: #888;
+}
+
+.get-profile-btn {
+  margin-left: auto;
+  padding: 12rpx 20rpx;
+  background: #007aff;
+  color: #fff;
+  border-radius: 999rpx;
+  font-size: 24rpx;
+}
+
+/* 分区 */
+.section {
+  margin-top: 24rpx;
+  background: #fff;
+  border-radius: 20rpx;
+  overflow: hidden;
+  box-shadow: 0 6rpx 20rpx rgba(0,0,0,0.06);
+}
+
+.section-title {
+  padding: 24rpx;
+  font-size: 26rpx;
+  color: #888;
+}
+
+/* 功能列表 */
+.feature-list {}
+
+.feature-item {
+  display: flex;
+  align-items: center;
+  padding: 24rpx;
+  border-top: 1rpx solid #f0f0f0;
+}
+
+.feature-item:first-child {
+  border-top: none;
+}
+
+.feature-icon {
+  width: 64rpx;
+  height: 64rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 36rpx;
+}
+
+.feature-meta {
+  flex: 1;
+  margin-left: 12rpx;
+}
+
+.feature-name {
+  font-size: 30rpx;
+  color: #333;
+}
+
+.feature-desc {
+  margin-top: 6rpx;
+  font-size: 24rpx;
+  color: #999;
+}
+
+.feature-arrow {
+  color: #bbb;
+}
+
+.feature-item.disabled {
+  opacity: 0.6;
+}

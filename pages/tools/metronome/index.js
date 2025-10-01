@@ -1,7 +1,7 @@
 Page({
-    //使用微信小程序的音频API播放节拍音效，提前注册控件，虽然会提示深拷贝可能出错，但是似乎没有出错，能用就行（逃
+    /*使用微信小程序的音频API播放节拍音效*/
     audioContext : wx.createInnerAudioContext({
-        useWebAudioImplement: false
+      useWebAudioImplement: true
     }),
   data: {
     // 节拍器状态
@@ -29,8 +29,8 @@ Page({
   },
 
   onUnload() {
-    // 页面卸载时停止节拍器，释放资源
-    this.audioContext.distory();
+    // 页面卸载时停止节拍器，卧槽微信真是太神了，调用方法不能是destroy()，是destroy不要括号，不然就会报错👍，fuck wechat
+    this.audioContext.destroy;
     this.stopMetronome();
   },
 
@@ -77,7 +77,7 @@ Page({
       currentBeat: 1
     });
 
-    // 创建定时器
+    //创建定时器
     const timer = setInterval(() => {
       this.playBeat();
     }, this.data.beatInterval);

@@ -1,0 +1,74 @@
+/* 容器 */
+.container {
+  padding: 24rpx;
+  background-color: #f7f8fa;
+  min-height: 100vh;
+}
+
+/* 头部 */
+.hero {
+  background: #fff;
+  border-radius: 20rpx;
+  padding: 40rpx 24rpx;
+  text-align: center;
+  box-shadow: 0 6rpx 20rpx rgba(0,0,0,0.06);
+}
+
+.app-icon {
+  width: 160rpx;
+  height: 160rpx;
+  margin: 0 auto 16rpx;
+  border-radius: 32rpx;
+  background: #f0f0f0;
+}
+
+.app-name {
+  font-size: 36rpx;
+  font-weight: 700;
+  color: #333;
+}
+
+/* 卡片 */
+.card {
+  margin-top: 24rpx;
+  background: #fff;
+  border-radius: 20rpx;
+  padding: 24rpx;
+  box-shadow: 0 6rpx 20rpx rgba(0,0,0,0.06);
+}
+
+.card-title {
+  font-size: 28rpx;
+  color: #888;
+  margin-bottom: 12rpx;
+}
+
+.card-content {
+  font-size: 28rpx;
+  color: #444;
+  line-height: 1.7;
+}
+
+/* 链接 */
+.link-item {
+  display: flex;
+  align-items: center;
+  padding: 16rpx 0;
+  border-top: 1rpx solid #f0f0f0;
+}
+
+.link-item:first-child {
+  border-top: none;
+}
+
+.label {
+  color: #666;
+  width: 150rpx;
+  font-size: 26rpx;
+}
+
+.value {
+  color: #1a73e8;
+  font-size: 26rpx;
+  word-break: break-all;
+}

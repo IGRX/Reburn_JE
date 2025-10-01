@@ -1,0 +1,28 @@
+<view class="container">
+  <view class="hero">
+    <image class="app-icon" src="/assets/pages/mine/icons/app-placeholder.png" mode="aspectFit" />
+    <view class="app-name">奇妙的口琴工具集</view>
+  </view>
+
+  <view class="card intro">
+    <view class="card-title">简介</view>
+    <view class="card-content">
+      这是一款为口琴爱好者准备的小程序，内含乐谱库、转调器、节拍器等常用工具，持续更新中。
+    </view>
+  </view>
+
+  <view class="card links">
+    <view class="card-title">联系我们</view>
+    <view class="card-content">
+        小程序已在GitHub上开源，欢迎各路大佬issue和contribute（逃
+    </view>
+    <view class="link-item">
+      <text class="label">GitHub：</text>
+      <text class="value">https://github.com/IGRX/Reburn_JE</text>
+    </view>
+    <view class="link-item">
+      <text class="label">QQ群：</text>
+      <text class="value">690514210</text>
+    </view>
+  </view>
+</view>

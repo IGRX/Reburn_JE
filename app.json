@@ -4,10 +4,11 @@
     "pages/tools/index",
     "pages/tools/transposer/index",
     "pages/tools/metronome/index",
-    "pages/mine/index"
+    "pages/mine/index",
+    "pages/mine/about/index"
   ],
   "window": {
-    "navigationBarTitleText": "口琴工具集",
+    "navigationBarTitleText": "奇妙的口琴工具集",
     "navigationBarBackgroundColor": "#ffffff",
     "navigationBarTextStyle": "black",
     "backgroundTextStyle": "light",

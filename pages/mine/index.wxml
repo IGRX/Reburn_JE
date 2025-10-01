@@ -1,4 +1,50 @@
 <view class="container">
- <view class="tab-page-title">我的</view>
- <view>这里将展示收藏、历史、设置等个人中心内容。</view>
+  <view class="profile-card">
+    <view class="avatar-wrap">
+      <image class="avatar" src="{{hasUserInfo ? userInfo.avatarUrl : '/assets/pages/mine/icons/default-avatar.png'}}" mode="aspectFill" />
+    </view>
+    <view class="user-info">
+      <view class="nickname">{{hasUserInfo ? userInfo.nickName : '未登录'}}</view>
+      <view class="subtitle">欢迎使用奇妙的口琴工具集</view>
+    </view>
+    <button class="get-profile-btn" wx:if="{{!hasUserInfo}}" bindtap="onGetUserProfile">获取头像昵称</button>
+  </view>
+
+  <view class="section">
+    <view class="section-title">功能</view>
+    <view class="feature-list">
+      <view class="feature-item" data-id="favorites" bindtap="onFeatureTap">
+        <view class="feature-icon">⭐</view>
+        <view class="feature-meta">
+          <view class="feature-name">我的收藏</view>
+        </view>
+        <view class="feature-arrow">›</view>
+      </view>
+      
+      <view class="feature-item" data-id="uploads" bindtap="onFeatureTap">
+        <view class="feature-icon">😀</view>
+        <view class="feature-meta">
+          <view class="feature-name">我的上传</view>
+        </view>
+        <view class="feature-arrow">›</view>
+      </view>
+
+      <view class="feature-item" data-id="about" bindtap="onFeatureTap">
+        <view class="feature-icon">ℹ️</view>
+        <view class="feature-meta">
+          <view class="feature-name">关于应用</view>
+        </view>
+        <view class="feature-arrow">›</view>
+      </view>
+
+      <view class="feature-item disabled">
+        <view class="feature-icon">🧩</view>
+        <view class="feature-meta">
+          <view class="feature-name">功能占位</view>
+          <view class="feature-name">敬请期待</view>
+        </view>
+        <view class="feature-arrow">›</view>
+      </view>
+    </view>
+  </view>
 </view>
