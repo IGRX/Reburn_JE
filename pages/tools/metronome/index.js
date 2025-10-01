@@ -127,24 +127,39 @@ Page({
   // 播放节拍音效
   playBeatSound() {
     // 使用微信小程序的音频API播放节拍音效
-    const audioContext = wx.createInnerAudioContext();
+    const audioContext = wx.createInnerAudioContext({
+      useWebAudioImplement: true
+    });
     
     // 根据节拍类型播放不同音效
     if (this.data.currentBeat === 1) {
       // 强拍 - 使用系统提示音
+      audioContext.src = '/assets/pages/tools/sounds/beat_heavy.mp3'
       wx.vibrateShort({
-        type: 'heavy'
+        type: 'heavy',
+        success: res => {
+          audioContext.play()
+        },
+        fail: err => {
+          console.log('强拍震动失败', err)
+        }
       });
+      audioContext.destroy()
     } else {
       // 弱拍 - 使用轻震动
+      audioContext.src = '/assets/pages/tools/sounds/beat_light.mp3'
       wx.vibrateShort({
-        type: 'light'
+        type: 'light',
+        success: res => {
+            audioContext.play()
+        },
+        fail: err => {
+          console.log('弱拍震动失败', err)
+        }
       });
+      audioContext.destroy()
     }
-
-    // 也可以播放音频文件（如果有的话）
-    // audioContext.src = '/assets/sounds/metronome.mp3';
-    // audioContext.play();
+    
   },
 
   // 切换音效开关
@@ -156,7 +171,7 @@ Page({
 
   // 调整每小节拍数
   onBeatsPerMeasureChange(e) {
-    const beats = parseInt(e.detail.value);
+    const beats = parseInt(e.target.dataset.value);
     this.setData({
       beatsPerMeasure: beats,
       currentBeat: 1

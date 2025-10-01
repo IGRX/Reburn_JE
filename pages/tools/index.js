@@ -108,7 +108,7 @@ Page({
         console.log('跳转至转调器失败');
       },
       complete: () => {
-        console.log('跳转至转调器完成');
+        console.log('openTransposer完成');
       }
     });
   },
@@ -124,7 +124,7 @@ Page({
         console.log('跳转至节拍器失败', error);
       },
       complete: () => {
-        console.log('跳转至节拍器完成');
+        console.log('openMetronome完成');
       }
     });
   },

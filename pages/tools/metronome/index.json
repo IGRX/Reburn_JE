@@ -1,7 +1,3 @@
 {
-  "navigationBarTitleText": "节拍器",
-  "navigationBarBackgroundColor": "#007AFF",
-  "navigationBarTextStyle": "white",
-  "backgroundColor": "#f8f9fa",
   "usingComponents": {}
 }

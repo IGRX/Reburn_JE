@@ -3,6 +3,7 @@
     "pages/library/index",
     "pages/tools/index",
     "pages/tools/transposer/index",
+    "pages/tools/metronome/index",
     "pages/mine/index"
   ],
   "window": {

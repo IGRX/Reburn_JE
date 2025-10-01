@@ -36,7 +36,8 @@
     <view class="metronome-circle {{beatAnimation ? 'beat-animation' : ''}}">
       <view class="beat-indicator">
         <view class="beat-number">{{currentBeat}}</view>
-        <view class="beat-total">/ {{beatsPerMeasure}}</view>
+        <view class="beat-total">———</view>
+        <view>{{beatsPerMeasure}}</view>
       </view>
     </view>
 
