@@ -38,5 +38,6 @@
         "selectedIconPath": "assets/pages/mine/icons/user_blue.png"
       }
     ]
-  }
+  },
+  "lazyCodeLoading": "requiredComponents"
 }
