@@ -5,7 +5,9 @@
     "pages/tools/transposer/index",
     "pages/tools/metronome/index",
     "pages/mine/index",
-    "pages/mine/about/index"
+    "pages/mine/about/index",
+    "pages/mine/uploads/index",
+    "pages/mine/uploads/je-editor/index"
   ],
   "window": {
     "navigationBarTitleText": "奇妙的口琴工具集",

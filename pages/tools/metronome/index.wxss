@@ -66,6 +66,7 @@
 
 .bpm-slider {
   width: 100%;
+  margin: auto;
 }
 
 /* 节拍器主体 */

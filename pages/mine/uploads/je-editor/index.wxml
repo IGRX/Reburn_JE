@@ -1,0 +1,153 @@
+<view class="container">
+  <!-- 页面标题 -->
+  <view class="header">
+    <view class="title">编辑JE谱</view>
+    <view class="subtitle">输入您的JE谱文本内容</view>
+  </view>
+
+  <!-- JE谱编辑器 -->
+  <view class="editor-section">
+    <view class="editor-header">
+      <view class="editor-title">JE谱内容</view>
+      <view class="editor-tip">支持格式：(123)123[123] 等</view>
+    </view>
+    <textarea 
+      class="je-editor" 
+      placeholder="请输入JE谱内容，例如：&#10;(123)123[123]&#10;(456)456[456]"
+      value="{{jeContent}}"
+      bindinput="onJeContentChange"
+      maxlength="5000"
+      auto-height
+      show-confirm-bar="{{false}}"
+    ></textarea>
+    <view class="char-count">{{jeContent.length}}/5000</view>
+  </view>
+
+  <!-- 元数据表单 -->
+  <view class="metadata-section">
+    <view class="section-title">乐谱信息</view>
+    
+    <!-- 标题 -->
+    <view class="form-item">
+      <view class="form-label">标题 *</view>
+      <input 
+        class="form-input" 
+        placeholder="请输入乐谱标题" 
+        value="{{metadata.title}}"
+        bindinput="onTitleChange"
+        maxlength="100"
+      />
+    </view>
+
+    <!-- 作者 -->
+    <view class="form-item">
+      <view class="form-label">作者</view>
+      <input 
+        class="form-input" 
+        placeholder="请输入作者姓名" 
+        value="{{metadata.author}}"
+        bindinput="onAuthorChange"
+        maxlength="50"
+      />
+    </view>
+
+    <!-- 专辑 -->
+    <view class="form-item">
+      <view class="form-label">专辑</view>
+      <input 
+        class="form-input" 
+        placeholder="请输入专辑名称" 
+        value="{{metadata.album}}"
+        bindinput="onAlbumChange"
+        maxlength="100"
+      />
+    </view>
+
+    <!-- 封面选择 -->
+    <view class="form-item">
+      <view class="form-label">封面</view>
+      <view class="cover-section">
+        <view wx:if="{{!metadata.cover}}" class="cover-placeholder" bindtap="chooseCover">
+          <view class="cover-icon">📷</view>
+          <view class="cover-text">点击选择封面</view>
+        </view>
+        <view wx:else class="cover-preview" bindtap="chooseCover">
+          <image src="{{metadata.cover}}" mode="aspectFill" class="cover-image" />
+          <view class="cover-overlay">
+            <view class="cover-change-text">更换封面</view>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 描述 -->
+    <view class="form-item">
+      <view class="form-label">描述</view>
+      <textarea 
+        class="form-textarea" 
+        placeholder="请输入乐谱描述或备注" 
+        value="{{metadata.description}}"
+        bindinput="onDescriptionChange"
+        maxlength="200"
+        auto-height
+        show-confirm-bar="{{false}}"
+      ></textarea>
+    </view>
+  </view>
+
+  <!-- 操作按钮 -->
+  <view class="action-section">
+    <button class="action-btn preview-btn" bindtap="previewJe" disabled="{{!canPreview}}">
+      <view class="btn-icon">👁️</view>
+      <view class="btn-text">预览</view>
+    </button>
+    <button class="action-btn save-btn" bindtap="saveJe" disabled="{{!canSave}}">
+      <view class="btn-icon">💾</view>
+      <view class="btn-text">保存</view>
+    </button>
+  </view>
+
+  <!-- 预览弹窗 -->
+  <view wx:if="{{showPreview}}" class="preview-modal" bindtap="closePreview">
+    <view class="preview-content">
+      <view class="preview-header">
+        <view class="preview-title">JE谱预览</view>
+        <view class="close-btn" bindtap="closePreview">✕</view>
+      </view>
+      <view class="preview-body">
+        <view class="preview-meta">
+          <view class="preview-info">
+            <view class="info-item">
+              <text class="info-label">标题：</text>
+              <text class="info-value">{{metadata.title || '未设置'}}</text>
+            </view>
+            <view class="info-item">
+              <text class="info-label">作者：</text>
+              <text class="info-value">{{metadata.author || '未设置'}}</text>
+            </view>
+            <view class="info-item">
+              <text class="info-label">专辑：</text>
+              <text class="info-value">{{metadata.album || '未设置'}}</text>
+            </view>
+          </view>
+        </view>
+        <view class="preview-content-text">
+          <text class="je-content-display">{{jeContent}}</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 保存进度弹窗 -->
+  <view wx:if="{{showSaveProgress}}" class="save-modal">
+    <view class="modal-content">
+      <view class="modal-title">正在保存</view>
+      <view class="progress-info">
+        <view class="progress-text">{{saveProgressText}}</view>
+        <view class="progress-bar">
+          <view class="progress-fill" style="width: {{saveProgress}}%"></view>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>

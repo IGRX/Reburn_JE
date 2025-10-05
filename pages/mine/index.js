@@ -3,10 +3,17 @@ Page({
   hasUserInfo: false,
   userInfo: {
    avatarUrl: '',
-   nickName: ''
+   nickName: '',
+   city: '',
+   country: '',
+   gender: '',
+   is_demote: '',
+   language: '',
+   province: ''
   },
   features: [
    { id: 'favorites', name: '收藏', icon: '⭐', desc: '我的收藏' },
+   { id: 'uploads', name: '上传', icon: 'ℹ️', desc: '上传新曲谱' },
    { id: 'about', name: '关于', icon: 'ℹ️', desc: '关于应用' },
    { id: 'placeholder1', name: '功能占位', icon: '🧩', desc: '敬请期待' }
   ]
@@ -22,8 +29,6 @@ Page({
    const stored = wx.getStorageSync('userInfo');
    if (stored && stored.nickName) {
     this.setData({ hasUserInfo: true, userInfo: stored });
-   }else {
-       this.onGetUserProfile()
    }
   } catch (e) {}
  },
@@ -34,12 +39,14 @@ Page({
    wx.getUserProfile({
     desc: '用于完善个人资料',
     success: (res) => {
-     const { userInfo } = res;
-     this.setData({ hasUserInfo: true, userInfo });
-     try { wx.setStorageSync('userInfo', userInfo); } catch (e) {}
+      console.log(res);
+      const { userInfo } = res;
+      this.setData({ hasUserInfo: true, userInfo });
+      try { wx.setStorageSync('userInfo', userInfo); 
+    } catch (e) {}
     },
     fail: () => {
-     wx.showToast({ title: '未授权头像昵称', icon: 'none' });
+     console.error("用户取消授权")
     }
    });
   } else {
@@ -49,18 +56,26 @@ Page({
 
  onFeatureTap(e) {
   const id = e.currentTarget.dataset.id;
-  switch (id) {
-   case 'favorites':
-    this.openFavorites();
-    break;
-   case 'uploads':
-    this.openUploads();
-    break;
-   case 'about':
-    this.openAbout();
-    break;
-   default:
-    wx.showToast({ title: '功能开发中', icon: 'none' });
+  console.log(id);
+  if (this.data.hasUserInfo === false) {
+    wx.showToast({
+      title: '您尚未登录',
+      icon: 'error'
+    })
+  } else if (this.data.hasUserInfo === true) {
+    switch (id) {
+      case 'favorites':
+       this.openFavorites();
+       break;
+      case 'uploads':
+       this.openUploads();
+       break;
+      case 'about':
+       this.openAbout();
+       break;
+      default:
+       wx.showToast({ title: '功能开发中', icon: 'none' });
+    }
   }
  },
 
@@ -70,8 +85,9 @@ Page({
  },
 
  openUploads() {
-  // 预留：跳转上传页（后续实现）
-  wx.showToast({ title: '上传功能开发中', icon: 'none' });
+  wx.navigateTo({
+   url: '/pages/mine/uploads/index'
+  });
  },
 
  openAbout() {

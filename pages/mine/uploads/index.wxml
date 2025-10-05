@@ -1,0 +1,93 @@
+<view class="container">
+  <!-- 页面标题 -->
+  <view class="header">
+    <view class="title">我的上传</view>
+    <view class="subtitle">管理您上传的乐谱文件</view>
+  </view>
+
+  <!-- 上传按钮 -->
+  <view class="upload-section">
+    <button class="upload-btn" bindtap="chooseAndUpload" data-uploadtype="file">
+      <view class="upload-icon">📁</view>
+      <view class="upload-text">选择文件</view>
+    </button>
+    <view class="upload-tip">上传文件谱，支持 PDF、JPG和PNG</view>
+    <button class="upload-btn" bindtap="chooseAndUpload" data-uploadtype="text">
+      <view class="upload-icon">🎹</view>
+      <view class="upload-text">编辑JE谱</view>
+    </button>
+    <view class="upload-tip">上传JE谱，如(123)123[123]</view>
+  </view>
+
+  <!-- 乐谱列表 -->
+  <view class="scores-section">
+    <view class="section-header">
+      <view class="section-title">已上传乐谱</view>
+      <view class="score-count">共 {{scoresList.length}} 个文件</view>
+    </view>
+
+    <!-- 空状态 -->
+    <view wx:if="{{scoresList.length === 0}}" class="empty-state">
+      <view class="empty-icon">📄</view>
+      <view class="empty-text">暂无上传的乐谱</view>
+      <view class="empty-desc">点击上方按钮开始上传您的第一个乐谱吧</view>
+    </view>
+
+    <!-- 乐谱列表 -->
+    <view wx:else class="scores-list">
+      <view class="score-item" wx:for="{{scoresList}}" wx:key="id" bindtap="viewScore" data-score="{{item}}">
+        <view class="score-preview">
+          <image wx:if="{{item.type === 'image'}}" src="{{item.previewUrl}}" mode="aspectFit" class="preview-image" />
+          <view wx:else class="preview-icon">📄</view>
+        </view>
+        <view class="score-info">
+          <view class="score-name">{{item.name}}</view>
+          <view class="score-meta">
+            <view class="score-size">{{item.sizeText}}</view>
+            <view class="score-date">{{item.uploadDate}}</view>
+          </view>
+        </view>
+        <view class="score-actions">
+          <view class="action-btn" bindtap="deleteScore" data-id="{{item.id}}" catchtap>
+            <view class="action-icon">🗑️</view>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 上传进度弹窗 -->
+  <view wx:if="{{showUploadProgress}}" class="upload-modal">
+    <view class="modal-content">
+      <view class="modal-title">正在上传</view>
+      <view class="progress-info">
+        <view class="progress-text">{{uploadProgressText}}</view>
+        <view class="progress-bar">
+          <view class="progress-fill" style="width: {{uploadProgress}}%"></view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 文件预览弹窗 -->
+  <view wx:if="{{showPreview}}" class="preview-modal" bindtap="closePreview">
+    <view class="preview-content" catchtap>
+      <view class="preview-header">
+        <view class="preview-title">{{currentScore.name}}</view>
+        <view class="close-btn" bindtap="closePreview">✕</view>
+      </view>
+      <view class="preview-body">
+        <image wx:if="{{currentScore.type === 'image'}}" src="{{currentScore.url}}" mode="widthFix" class="preview-image-full" />
+        <view wx:else class="preview-pdf">
+          <view class="pdf-icon">📄</view>
+          <view class="pdf-text">PDF文件预览</view>
+          <view class="pdf-desc">点击下载查看完整文件</view>
+        </view>
+      </view>
+      <view class="preview-actions">
+        <button class="action-button download-btn" bindtap="downloadScore">下载文件</button>
+        <button class="action-button delete-btn" bindtap="deleteCurrentScore">删除</button>
+      </view>
+    </view>
+  </view>
+</view>
