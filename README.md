@@ -9,3 +9,25 @@
 - [ ] 和弦查询
 - [ ] 音阶练习
 - [ ] 录音器
+
+## 数据库结构
+```json
+{
+  id: "unique_id",
+  name: "filename.jpg|jpeg|png|pdf|je",
+  size: fileSize,
+  sizeText: "formatted_size",
+  type: "image|pdf|je",
+  url: "file_path_or_content",
+  previewUrl: "preview_url_or_null",
+  uploadDate: "YYYY-MM-DD",
+  tempFilePath: "temp_path",
+  Title: "title",
+  Author: "author",
+  Album: "album",
+  Cover: "cover_path",
+  Description: "description"
+  JeContent: jeContent,
+  needUploadProgress: true 
+}
+```
