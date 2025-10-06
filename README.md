@@ -3,15 +3,18 @@
 欢迎各路强者的issue或者pull，纯为爱发电项目
 
 ## 功能列表（饼）
-- [ ] 乐谱库，包含查询收藏
+- [x] 乐谱库主页面
+- [x] 查询
+- [x] 上传
+- [ ] 收藏
 - [x] 转调器（算法还有bug呜呜呜）
 - [x] 节拍器
 - [ ] 和弦查询
 - [ ] 音阶练习
 - [ ] 录音器
 
-## 数据库结构
-```json
+## 数据库scoreData结构
+```
 {
   id: "unique_id",
   name: "filename.jpg|jpeg|png|pdf|je",
@@ -22,12 +25,13 @@
   previewUrl: "preview_url_or_null",
   uploadDate: "YYYY-MM-DD",
   tempFilePath: "temp_path",
+  timestamp: "new Date().getTime()",
   Title: "title",
   Author: "author",
   Album: "album",
   Cover: "cover_path",
   Description: "description"
-  JeContent: jeContent,
+  JeContent: "jeContent",
   needUploadProgress: true 
 }
 ```
