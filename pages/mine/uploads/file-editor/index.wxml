@@ -37,14 +37,6 @@
             <view class="file-type">{{selectedFile.type.toUpperCase()}}</view>
           </view>
         </view>
-        <view class="file-actions">
-          <view class="action-btn" bindtap="previewFile">
-            <view class="action-icon">👁️</view>
-          </view>
-          <view class="action-btn" bindtap="removeFile">
-            <view class="action-icon">🗑️</view>
-          </view>
-        </view>
       </view>
     </view>
   </view>

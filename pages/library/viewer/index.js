@@ -47,6 +47,20 @@ Page({
     const score = this.data.score;
     if (!score) return;
 
-    // 这里可以添加特定的乐谱渲染逻辑
+    if (score.type === 'image'){
+      const imageUrl = score.url;
+      wx.previewMedia()
+    }
+  },
+
+  onFileTap(e){
+    const fileUrl = e.currentTarget.dataset.url;
+    wx.previewMedia({
+      sources: [{
+        url: fileUrl,
+        type: 'image'
+      }],
+      success: (res) => {console.log('预览成功')}
+    })
   }
 });

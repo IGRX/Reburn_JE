@@ -151,12 +151,6 @@
   color: #888;
 }
 
-.file-actions {
-  display: flex;
-  gap: 12rpx;
-  margin-left: 16rpx;
-}
-
 .action-btn {
   width: 60rpx;
   height: 60rpx;

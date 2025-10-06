@@ -169,8 +169,8 @@ Page({
 
   // JE谱转调核心算法
   transposeMusic(text, fromKeyIndex, toKeyIndex) {
-    const semitoneDiff = this.data.keyOptions[toKeyIndex].semitones - 
-                        this.data.keyOptions[fromKeyIndex].semitones;
+    const semitoneDiff = this.data.keyOptions[fromKeyIndex].semitones - 
+                        this.data.keyOptions[toKeyIndex].semitones;
     
     if (semitoneDiff === 0) {
       return text; // 相同调性，直接返回
@@ -370,7 +370,7 @@ Page({
       '6': 9,   // A
       '7': 11   // B
     };
-    return baseMap[note] || -1;
+    return baseMap[note] ?? -1;
   },
 
   // 半音值转换为JE谱音符
