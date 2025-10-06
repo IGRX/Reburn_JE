@@ -47,7 +47,6 @@ Page({
   },
 
   onLoad() {
-    console.log('工具页面加载完成');
   },
 
   onShow() {
@@ -100,32 +99,14 @@ Page({
   // 转调器
   openTransposer() {
     wx.navigateTo({
-      url: '/pages/tools/transposer/index',
-      success: () => {
-        console.log('正在跳转至转调器');
-      },
-      fail: () => {
-        console.log('跳转至转调器失败');
-      },
-      complete: () => {
-        console.log('openTransposer完成');
-      }
+      url: '/pages/tools/transposer/index'
     });
   },
 
   // 节拍器
   openMetronome() {
     wx.navigateTo({
-      url: '/pages/tools/metronome/index',
-      success: () => {
-        console.log('正在跳转至节拍器');
-      },
-      fail: (error) => {
-        console.log('跳转至节拍器失败', error);
-      },
-      complete: () => {
-        console.log('openMetronome完成');
-      }
+      url: '/pages/tools/metronome/index'
     });
   },
 

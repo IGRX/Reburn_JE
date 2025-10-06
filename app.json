@@ -1,13 +1,15 @@
 {
   "pages": [
     "pages/library/index",
+    "pages/library/viewer/index",
     "pages/tools/index",
     "pages/tools/transposer/index",
     "pages/tools/metronome/index",
     "pages/mine/index",
     "pages/mine/about/index",
     "pages/mine/uploads/index",
-    "pages/mine/uploads/je-editor/index"
+    "pages/mine/uploads/je-editor/index",
+    "pages/mine/uploads/file-editor/index"
   ],
   "window": {
     "navigationBarTitleText": "奇妙的口琴工具集",

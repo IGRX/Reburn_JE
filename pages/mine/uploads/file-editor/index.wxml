@@ -1,26 +1,52 @@
 <view class="container">
   <!-- 页面标题 -->
   <view class="header">
-    <view class="title">编辑JE谱</view>
-    <view class="subtitle">输入您的JE谱文本内容</view>
+    <view class="title">上传文件谱</view>
+    <view class="subtitle">选择您的乐谱文件</view>
   </view>
 
-  <!-- JE谱编辑器 -->
-  <view class="editor-section">
-    <view class="editor-header">
-      <view class="editor-title">JE谱内容</view>
-      <view class="editor-tip">支持格式：(123)123[123] 等</view>
+  <!-- 文件选择器 -->
+  <view class="file-section">
+    <view class="file-header">
+      <view class="file-title">选择文件</view>
     </view>
-    <textarea 
-      class="je-editor" 
-      placeholder="请输入JE谱内容，例如：&#10;(123)123[123]&#10;(456)456[456]"
-      value="{{jeContent}}"
-      bindinput="onJeContentChange"
-      maxlength="5000"
-      auto-height
-      show-confirm-bar="{{false}}"
-    ></textarea>
-    <view class="char-count">{{jeContent.length}}/5000</view>
+    
+    <!-- 文件选择按钮 -->
+    <view wx:if="{{!selectedFile}}" class="file-selector">
+      <button class="select-file-btn" bindtap="chooseFile">
+        <view class="btn-icon">📁</view>
+        <view class="btn-text">选择乐谱文件</view>
+      </button>
+      <view class="file-info">
+        <view class="file-limit">文件大小限制：10MB</view>
+        <view class="file-formats">支持格式：PDF、JPG、PNG</view>
+      </view>
+    </view>
+
+    <!-- 已选择文件 -->
+    <view wx:else class="file-preview">
+      <view class="file-info-card">
+        <view class="file-icon">
+          <image wx:if="{{selectedFile.type === 'image'}}" src="{{selectedFile.previewUrl}}" mode="aspectFit" class="file-thumbnail" />
+          <view wx:else class="file-icon-placeholder">📄</view>
+        </view>
+        <view class="file-details">
+          <view class="file-name">{{selectedFile.name}}</view>
+          <view class="file-meta">
+            <view class="file-size">{{selectedFile.sizeText}}</view>
+            <view class="file-type">{{selectedFile.type.toUpperCase()}}</view>
+          </view>
+        </view>
+        <view class="file-actions">
+          <view class="action-btn" bindtap="previewFile">
+            <view class="action-icon">👁️</view>
+          </view>
+          <view class="action-btn" bindtap="removeFile">
+            <view class="action-icon">🗑️</view>
+          </view>
+        </view>
+      </view>
+    </view>
   </view>
 
   <!-- 元数据表单 -->
@@ -106,11 +132,11 @@
 
   <!-- 操作按钮 -->
   <view class="action-section">
-    <button class="action-btn preview-btn" bindtap="previewJe" disabled="{{!canPreview}}">
+    <button class="action-btn preview-btn" bindtap="previewFile" disabled="{{!canPreview}}">
       <view class="btn-icon">👁️</view>
       <view class="btn-text">预览</view>
     </button>
-    <button class="action-btn save-btn" bindtap="saveJe" disabled="{{!canSave}}">
+    <button class="action-btn save-btn" bindtap="saveFile" disabled="{{!canSave}}">
       <view class="btn-icon">💾</view>
       <view class="btn-text">保存</view>
     </button>

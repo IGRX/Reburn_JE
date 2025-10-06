@@ -1,0 +1,153 @@
+/* 页面容器 */
+.container {
+  padding: 24rpx;
+  background-color: #f7f8fa;
+  min-height: 100vh;
+}
+
+/* 加载状态 */
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 400rpx;
+  color: #666;
+  background: #fff;
+  border-radius: 20rpx;
+  padding: 32rpx;
+  box-shadow: 0 6rpx 20rpx rgba(0,0,0,0.06);
+}
+
+.loading-spinner {
+  width: 60rpx;
+  height: 60rpx;
+  border: 6rpx solid #f3f3f3;
+  border-top: 6rpx solid #007aff;
+  border-radius: 50%;
+  margin-bottom: 20rpx;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* 错误信息 */
+.error-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 400rpx;
+  padding: 32rpx;
+  background: #fff;
+  border-radius: 20rpx;
+  box-shadow: 0 6rpx 20rpx rgba(0,0,0,0.06);
+}
+
+.error-message {
+  color: #e53935;
+  text-align: center;
+  margin-bottom: 30rpx;
+}
+
+/* 乐谱内容 */
+.album-info {
+  display: flex;
+  flex-direction: column;
+  gap: 12rpx;
+  margin: 16rpx 0;
+}
+
+.album-detail {
+  font-size: 28rpx;
+  color: #666;
+  line-height: 1.5;
+}
+.score-container {
+  padding: 0;
+  overflow-y: auto;
+}
+
+.score-header {
+  background: #fff;
+  border-radius: 20rpx;
+  padding: 32rpx 24rpx;
+  margin-bottom: 24rpx;
+  box-shadow: 0 6rpx 20rpx rgba(0,0,0,0.06);
+}
+
+.score-title {
+  font-size: 36rpx;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 16rpx;
+}
+
+.score-info {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20rpx;
+  font-size: 26rpx;
+  color: #888;
+}
+
+.score-date, .score-type, .score-uploader {
+  font-size: 24rpx;
+  color: #666;
+  margin-right: 20rpx;
+}
+
+/* 内容卡片 */
+.score-content-card {
+  background: #fff;
+  border-radius: 20rpx;
+  padding: 32rpx 24rpx;
+  margin-bottom: 24rpx;
+  box-shadow: 0 6rpx 20rpx rgba(0,0,0,0.06);
+}
+
+.content-title {
+  font-size: 32rpx;
+  font-weight: 600;
+  margin-bottom: 20rpx;
+  color: #333;
+}
+
+.je-text {
+  font-family: monospace;
+  white-space: pre-wrap;
+  word-break: break-all;
+  background-color: #f7f8fa;
+  padding: 20rpx;
+  border-radius: 12rpx;
+  font-size: 26rpx;
+  max-height: 800rpx;
+  overflow-y: auto;
+  border: 1rpx solid #eee;
+}
+
+/* 文件内容 */
+.file-info {
+  display: flex;
+  flex-direction: column;
+  gap: 16rpx;
+  font-size: 28rpx;
+  color: #666;
+}
+
+/* 无内容提示 */
+.no-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 200rpx;
+  color: #999;
+  font-size: 28rpx;
+  background: #fff;
+  border-radius: 20rpx;
+  padding: 32rpx;
+  box-shadow: 0 6rpx 20rpx rgba(0,0,0,0.06);
+}

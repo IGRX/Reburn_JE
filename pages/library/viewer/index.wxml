@@ -1,0 +1,57 @@
+<view class="container">
+  <!-- 加载中状态 -->
+  <view class="loading-container" wx:if="{{loading}}">
+    <view class="loading-spinner"></view>
+    <text>加载中...</text>
+  </view>
+
+  <!-- 错误信息 -->
+  <view class="error-container" wx:elif="{{errorMessage}}">
+    <text class="error-message">{{errorMessage}}</text>
+</view>
+
+  <!-- 乐谱内容 -->
+  <view class="score-container" wx:elif="{{score}}">
+    <!-- 乐谱标题和信息 -->
+    <view class="score-header">
+      <view class="score-title">{{ score.Title || '未命名乐谱'}}</view>
+      <view class="album-info">
+        <view class="album-detail">
+          <text>作者: </text>
+          <block wx:if="{{score.Author && score.Author.length > 0}}">
+            <text wx:for="{{score.Author}}" wx:key="*this" wx:for-item="author">{{author}}{{index < score.Author.length - 1 ? '、' : ''}}</text>
+          </block>
+          <text wx:else>未知作者</text>
+        </view>
+        <text class="album-detail">专辑: {{score.Album || '未知专辑'}}</text>
+        <text class="album-detail" wx:if="{{score.Description}}">说明: {{score.Description}}</text>
+      </view>
+      <view class="score-info">
+        <text class="score-uploader" wx:if="{{score.uploader}}">上传者: {{score.uploader}}</text>
+        <text class="score-date" wx:if="{{score.uploadDate}}">上传日期: {{score.uploadDate}}</text>
+        <text class="score-type">类型: {{score.type === 'je' ? 'JE谱' : '乐谱文件'}}</text>
+      </view>
+    </view>
+
+    <!-- JE文本内容 -->
+    <view class="score-content-card" wx:if="{{score.JeContent}}">
+      <view class="content-title">JE谱</view>
+      <view class="je-text">{{score.JeContent}}</view>
+    </view>
+
+    <!-- 文件内容 -->
+    <view class="score-content-card" wx:elif="{{score.type}}">
+      <view class="content-title">文件信息</view>
+      <view class="file-info">
+        <text>文件名: {{score.name || '未知文件'}}</text>
+        <text wx:if="{{score.size}}">大小: {{score.sizeText}}</text>
+      </view>
+      <!-- 这里可以添加文件预览或下载选项 -->
+    </view>
+
+    <!-- 无内容提示 -->
+    <view class="no-content" wx:else>
+      <text>此乐谱没有可显示的内容</text>
+    </view>
+  </view>
+</view>

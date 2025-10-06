@@ -3,17 +3,15 @@ Page({
     jeContent: '', // JE谱内容
     metadata: {
       title: '',
-      author: '',
+      author: [], 
       album: '',
       cover: '',
       description: ''
     },
+    currentAuthor: '', // 当前正在输入的作者
     canPreview: false, // 是否可以预览
     canSave: false, // 是否可以保存
     showPreview: false, // 显示预览弹窗
-    showSaveProgress: false, // 显示保存进度
-    saveProgress: 0, // 保存进度
-    saveProgressText: '' // 保存进度文本
   },
 
   onLoad() {
@@ -42,10 +40,39 @@ Page({
   },
 
   // 作者变化
-  onAuthorChange(e) {
+  onCurrentAuthorChange(e) {
     const author = e.detail.value;
     this.setData({
-      'metadata.author': author
+      currentAuthor: author
+    });
+  },
+
+  // 添加作者
+  addAuthor(e) {
+    const author = this.data.currentAuthor.trim();
+    if (author) {
+      // 检查是否已存在该作者
+      if (!this.data.metadata.author.includes(author)) {
+        this.setData({
+          'metadata.author': [...this.data.metadata.author, author],
+          currentAuthor: ''
+        });
+      } else {
+        wx.showToast({
+          title: '该作者已添加',
+          icon: 'none'
+        });
+      }
+    }
+  },
+
+  // 删除作者
+  removeAuthor(e) {
+    const index = e.currentTarget.dataset.index;
+    const authors = [...this.data.metadata.author];
+    authors.splice(index, 1);
+    this.setData({
+      'metadata.author': authors
     });
   },
 
@@ -69,8 +96,9 @@ Page({
   chooseCover() {
     const that = this;
     
-    wx.chooseImage({
+    wx.chooseMedia({
       count: 1,
+      mediaType: ['image'],
       sizeType: ['compressed'],
       sourceType: ['album', 'camera'],
       success(res) {
@@ -97,57 +125,58 @@ Page({
 
   // 检查是否可以保存
   checkCanSave() {
-    const canSave = this.data.jeContent.trim().length > 0 && 
-                   this.data.metadata.title.trim().length > 0;
+    const canSave = this.data.jeContent.trim().length > 0 && this.data.metadata.title.trim().length > 0;
     this.setData({ canSave });
   },
 
   // 预览JE谱
   previewJe() {
-    if (!this.data.canPreview) return;
-    
-    this.setData({ showPreview: true });
-  },
+    if (!this.data.canPreview) {
+      wx.showToast({
+        title: '无内容可预览',
+        icon: 'error'
+      });
+      return;
+    }
 
-  // 关闭预览
-  closePreview() {
-    this.setData({ showPreview: false });
+    // 创建预览用的乐谱对象
+    const previewScore = {
+      name: this.data.metadata.title || '未命名乐谱.je',
+      type: 'je',
+      JeContent: this.data.jeContent.trim(),
+      uploadDate: this.formatDate(new Date()), // 添加上传日期以统一显示
+      Title: this.data.metadata.title || '未命名乐谱',
+      Author: this.data.metadata.author,
+      Album: this.data.metadata.album,
+      Description: this.data.metadata.description
+    };
+    // 使用viewer页面进行预览
+    wx.navigateTo({
+      url: '/pages/library/viewer/index',
+      success: (res) => {
+        // 通过eventChannel向viewer页面传递数据
+        res.eventChannel.emit('viewScore', { from:'je-editor',score: previewScore });
+      },
+      fail: (err) => {
+        console.error('预览失败:', err);
+        wx.showToast({
+          title: '预览失败',
+          icon: 'error'
+        });
+      }
+    });
   },
 
   // 保存JE谱
   saveJe() {
     if (!this.data.canSave) return;
     
-    const that = this;
-    
-    // 显示保存进度
-    this.setData({
-      showSaveProgress: true,
-      saveProgress: 0,
-      saveProgressText: '准备保存...'
-    });
-
-    // 模拟保存进度
-    const progressInterval = setInterval(() => {
-      const currentProgress = that.data.saveProgress;
-      if (currentProgress < 90) {
-        const newProgress = currentProgress + Math.random() * 20;
-        that.setData({
-          saveProgress: Math.min(newProgress, 90),
-          saveProgressText: `保存中... ${Math.round(Math.min(newProgress, 90))}%`
-        });
-      }
-    }, 200);
-
-    // 创建文件ID
-    const fileId = 'je_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
-    
     // 获取JE谱内容
     const jeContent = this.data.jeContent.trim();
     const metadata = this.data.metadata;
     
-    // 计算文件大小（文本内容）
-    const fileSize = new Blob([jeContent]).size;
+    // 计算文件大小（文本内容）- 使用字符串长度作为近似值
+    const fileSize = jeContent.length;
     
     // 格式化文件大小
     const formatFileSize = (bytes) => {
@@ -158,71 +187,48 @@ Page({
       return parseFloat((bytes / Math.pow(k, i)).toFixed(1)) + ' ' + sizes[i];
     };
 
-    // 创建乐谱记录（与文件上传格式一致）
+    // 创建乐谱记录数据（不包含ID，由上传页面生成）
     const scoreData = {
-      id: fileId,
       name: metadata.title + '.je',
       size: fileSize,
       sizeText: formatFileSize(fileSize),
       type: 'je',
       url: jeContent, // JE谱内容作为URL
       previewUrl: null,
-      uploadDate: this.formatDate(new Date()),
       tempFilePath: jeContent,
+      timestamp: new Date().getTime(),
       Title: metadata.title,
       Author: metadata.author,
       Album: metadata.album,
       Cover: metadata.cover,
       Description: metadata.description,
-      JeContent: jeContent // 额外保存JE谱内容
+      JeContent: jeContent, // 额外保存JE谱内容，备个份
     };
-
-    // 模拟保存完成
-    setTimeout(() => {
-      clearInterval(progressInterval);
-      
-      that.setData({
-        saveProgress: 100,
-        saveProgressText: '保存完成!'
+    console.log('je-editor已创建scoredata')
+    console.log(scoreData)
+    // 获取eventChannel
+    const eventChannel = this.getOpenerEventChannel();
+    if (eventChannel) {
+      // 通过eventChannel发送数据
+      eventChannel.emit('scoreDataReady', {
+        success: true,
+        needUploadProgress: true, // 标记需要显示上传进度
+        data: scoreData
       });
-
-      // 保存到本地存储
-      const scores = wx.getStorageSync('userScores') || [];
-      scores.unshift(scoreData); // 新保存的JE谱放在最前面
-      
-      try {
-        wx.setStorageSync('userScores', scores);
-        
-        setTimeout(() => {
-          that.setData({ showSaveProgress: false });
-          
-          wx.showToast({
-            title: '保存成功',
-            icon: 'success'
-          });
-          
-          // 延迟返回上一页
-          setTimeout(() => {
-            wx.navigateBack();
-          }, 1000);
-        }, 500);
-        
-      } catch (e) {
-        console.error('保存JE谱失败:', e);
-        that.setData({ showSaveProgress: false });
-        wx.showToast({
-          title: '保存失败',
-          icon: 'error'
-        });
-      }
-    }, 2000);
+      wx.navigateBack();
+  } else {
+      // 无法获取eventChannel
+      wx.showToast({
+        title: '保存失败',
+        icon: 'error'
+      });
+    }
   },
-
   // 格式化日期
   formatDate(date) {
     const year = date.getFullYear();
     const month = String(date.getMonth() + 1).padStart(2, '0');
     const day = String(date.getDate()).padStart(2, '0');
     return `${year}-${month}-${day}`;
-  }
+  },
 });

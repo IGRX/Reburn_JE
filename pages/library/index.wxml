@@ -1,4 +1,77 @@
-﻿<view class="container">
- <view class="tab-page-title">谱库</view>
- <view>这里将展示口琴曲谱列表与搜索。</view>
+<view class="container">
+  <!-- 页面标题 -->
+  <view class="tab-page-title">JE谱库复活赛</view>
+  
+  <!-- 循环广告栏 -->
+  <view class="banner-container">
+    <swiper class="banner-swiper" indicator-dots="{{true}}" autoplay="{{true}}" interval="{{3000}}" duration="{{500}}" circular="{{true}}">
+      <swiper-item wx:for="{{bannerList}}" wx:key="id" bindtap="onBannerTap" data-item="{{item}}">
+        <view class="banner-item" style="background: {{item.bgColor}};">
+          <view class="banner-content">
+            <view class="banner-title">{{item.title}}</view>
+            <view class="banner-desc">{{item.description}}</view>
+          </view>
+          <view class="banner-icon">{{item.icon}}</view>
+        </view>
+      </swiper-item>
+    </swiper>
+  </view>
+
+  <!-- 搜索区域 -->
+  <view class="search-container">
+    <!-- 搜索类型选择 -->
+    <view class="search-type-tabs">
+      <view class="search-tab {{searchType === 'title' ? 'active' : ''}}" bindtap="onSearchTypeChange" data-type="title">标题</view>
+      <view class="search-tab {{searchType === 'author' ? 'active' : ''}}" bindtap="onSearchTypeChange" data-type="author">作者</view>
+      <view class="search-tab {{searchType === 'album' ? 'active' : ''}}" bindtap="onSearchTypeChange" data-type="album">专辑</view>
+      <view class="search-tab {{searchType === 'uploader' ? 'active' : ''}}" bindtap="onSearchTypeChange" data-type="uploader">上传者</view>
+    </view>
+    
+    <!-- 搜索输入框 -->
+    <view class="search-input-container">
+      <input class="search-input" placeholder="{{searchPlaceholder}}" value="{{searchKeyword}}" bindinput="onSearchInput" bindconfirm="onSearch" />
+      <view class="search-btn" bindtap="onSearch">
+        <text class="search-icon">🔍</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 乐谱列表 -->
+  <view class="scores-container">
+    <!-- 加载状态 -->
+    <view class="loading-container" wx:if="{{loading}}">
+      <view class="loading-spinner"></view>
+      <text>加载中...</text>
+    </view>
+    
+    <!-- 空状态 -->
+    <view class="empty-container" wx:elif="{{filteredScores.length === 0 && !loading}}">
+      <view class="empty-icon">📝</view>
+      <view class="empty-text">{{searchKeyword ? '没有找到相关乐谱' : '暂无乐谱'}}</view>
+    </view>
+    
+    <!-- 乐谱列表 -->
+    <view class="scores-list" wx:else>
+      <view class="score-item" wx:for="{{filteredScores}}" wx:key="id" bindtap="onScoreItemTap" data-score="{{item}}">
+        <view class="score-main">
+          <view class="score-title">{{item.Title || '未命名乐谱'}}</view>
+          <view class="score-info">
+            <text class="score-author">作者: 
+              <block wx:if="{{item.Author && item.Author.length > 0}}">
+                <text wx:for="{{item.Author}}" wx:key="*this" wx:for-item="author">{{author}}{{index < item.Author.length - 1 ? '、' : ''}}</text>
+              </block>
+              <text wx:else>未知</text>
+            </text>
+            <text class="score-album" wx:if="{{item.Album}}">专辑: {{item.Album}}</text>
+          </view>
+          <view class="score-meta">
+            <text class="score-uploader" wx:if="{{item.uploader}}">上传者: {{item.uploader}}</text>
+            <text class="score-date" wx:if="{{item.uploadDate}}">{{item.uploadDate}}</text>
+            <text class="score-type">{{item.type === 'je' ? 'JE谱' : '乐谱文件'}}</text>
+          </view>
+        </view>
+        <view class="score-arrow">›</view>
+      </view>
+    </view>
+  </view>
 </view>

@@ -23,7 +23,6 @@ Page({
   },
 
   onLoad() {
-    console.log('转调器页面加载完成');
     this.updateConvertButton();
   },
 

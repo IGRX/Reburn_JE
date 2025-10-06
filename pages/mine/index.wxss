@@ -70,8 +70,6 @@
 }
 
 /* 功能列表 */
-.feature-list {}
-
 .feature-item {
   display: flex;
   align-items: center;
