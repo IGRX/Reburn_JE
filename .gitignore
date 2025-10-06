@@ -3,6 +3,7 @@
 Thumbs.db
 $RECYCLE.BIN/
 project.config.json
+project.private.config.json
 .idea/
 
 # macOS
