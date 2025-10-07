@@ -176,7 +176,7 @@ Page({
       return text; // 相同调性，直接返回
     }
 
-    // 预处理：合并连续的括号，如(1)(2)(3)转换为(123)
+    // 预处理：合并连续的括号，如(1)(2)(3)转换为(123)，同时替换全角符号为半角
     let result = this.mergeConsecutiveBrackets(text);
 
     // 第一步：处理低八度音符 (123) 等
@@ -285,8 +285,11 @@ Page({
   // 合并连续的括号，如(1)(2)(3)转换为(123)
   mergeConsecutiveBrackets(text) {
     // 合并连续的低八度括号 (1)(2)(3) -> (123)
-    let result = text;
-    
+    let result = text
+      .replace(/\(/g, '（')
+      .replace(/\)/g, '）')
+      .replace(/【/g, '[')
+      .replace(/】/g, ']')
     // 使用循环直到没有更多的连续括号可以合并
     let prevResult;
     do {
@@ -347,10 +350,7 @@ Page({
     // 计算转调后的半音值
     let newSemitone = (originalSemitone + semitoneDiff) % 12;
     if (newSemitone < 0) newSemitone += 12;
-    
-    // 计算八度变化
-    const octaveChange = Math.floor((originalSemitone + semitoneDiff) / 12);
-    
+
     // 转换为JE谱格式
     const newNote = this.semitoneToJENote(newSemitone);
     

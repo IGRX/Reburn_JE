@@ -228,9 +228,10 @@
 .score-type {
   background: #007aff;
   color: white;
-  padding: 4rpx 12rpx;
+  padding: 2rpx 12rpx;
   border-radius: 8rpx;
   font-size: 22rpx;
+  text-align: center;
 }
 
 .score-arrow {

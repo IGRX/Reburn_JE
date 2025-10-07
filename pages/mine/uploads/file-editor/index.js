@@ -119,11 +119,12 @@ Page({
     // 创建预览用的乐谱对象
     const previewScore = {
       name: this.data.metadata.title || this.data.selectedFile.name || '未命名乐谱',
-      type: 'file',
+      type: this.data.selectedFile.type,
       fileName: this.data.selectedFile.name,
       fileSize: this.data.selectedFile.size,
       sizeText: this.data.selectedFile.sizeText,
       uploadDate: this.formatDate(new Date()), // 添加上传日期以统一显示
+      url: this.data.selectedFile.url,
       Title: this.data.metadata.title || '未命名乐谱',
       Author: this.data.metadata.author,
       Album: this.data.metadata.album,
@@ -289,6 +290,7 @@ Page({
       wx.navigateBack();
     } else {
       // 如果无法获取eventChannel，显示错误
+      console.error('无法获取eventchannel');
       wx.showToast({
         title: '保存失败',
         icon: 'error'

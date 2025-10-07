@@ -94,7 +94,7 @@
   color: #888;
 }
 
-.score-date, .score-type, .score-uploader {
+.score-date, .score-uploader {
   font-size: 24rpx;
   color: #666;
   margin-right: 20rpx;
@@ -150,4 +150,32 @@
   border-radius: 20rpx;
   padding: 32rpx;
   box-shadow: 0 6rpx 20rpx rgba(0,0,0,0.06);
+}
+
+.preview-image {
+  width: 100%;
+  border-radius: 8rpx;
+}
+
+.pdf-preview-container {
+  text-align: center;
+  padding: 40rpx 0;
+}
+
+.pdf-preview-text {
+  display: block;
+  color: #666;
+  margin-bottom: 30rpx;
+}
+
+.preview-btn {
+  background-color: #007aff;
+  color: white;
+  border-radius: 8rpx;
+}
+
+.unsupported-text {
+  display: block;
+  color: #999;
+  margin-top: 20rpx;
 }

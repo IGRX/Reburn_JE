@@ -67,7 +67,10 @@
           <view class="score-meta">
             <text class="score-uploader" wx:if="{{item.uploader}}">上传者: {{item.uploader}}</text>
             <text class="score-date" wx:if="{{item.uploadDate}}">{{item.uploadDate}}</text>
-            <text class="score-type">{{item.type === 'je' ? 'JE谱' : '乐谱文件'}}</text>
+            <text class="score-type" wx:if="{{item.type === 'je'}}">JE谱</text>
+            <text class="score-type" wx:elif="{{item.type === 'image'}}">图片</text>
+            <text class="score-type" wx:elif="{{item.type === 'pdf'}}">PDF</text>
+            <text class="score-type" wx:else>如果你看到这行字，请联系开发者，它不应该出现</text>
           </view>
         </view>
         <view class="score-arrow">›</view>

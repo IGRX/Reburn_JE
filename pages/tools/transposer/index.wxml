@@ -9,8 +9,8 @@
   <view class="help-section">
     <view class="help-title">使用说明</view>
     <view class="help-content">
-      <view class="help-item">• 仅支持JE谱法（如：(7) 1 2 3 [1]）</view>
-      <view class="help-item">• 支持带升降号的记谱方式（如：b(7)#1 b2）</view>
+      <view class="help-item">• 仅支持JE谱，如：(7) 1 2 3 [1]</view>
+      <view class="help-item">• 支持带升降号的记谱方式，如：b(7) #1 b2</view>
     </view>
   </view>
 

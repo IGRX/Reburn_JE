@@ -48,8 +48,9 @@
     <view wx:else class="scores-list">
       <view class="score-item" wx:for="{{scoresList}}" wx:key="id" bindtap="viewScore" data-score="{{item}}">
         <view class="score-preview">
-          <view wx:if="{{item.type === 'pdf' || item.type === 'image'}}" class="preview-icon">📄</view>
-          <view wx:elif="{{item.type === 'je'}}" class="preview-icon">🎹</view>
+          <view wx:if="{{item.type === 'pdf'}}" class="preview-icon">📄</view>
+          <view wx:elif="{{item.type === 'image'}}" class="preview-icon">🖼</view>
+          <view wx:elif="{{item.type === 'je'}}" class="preview-icon">🎼</view>
         </view>
         <view class="score-info">
           <view class="score-name">{{item.name}}</view>

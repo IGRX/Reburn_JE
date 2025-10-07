@@ -29,7 +29,6 @@
       <view class="score-info">
         <text class="score-uploader" wx:if="{{score.uploader}}">上传者: {{score.uploader}}</text>
         <text class="score-date" wx:if="{{score.uploadDate}}">上传日期: {{score.uploadDate}}</text>
-        <text class="score-type">类型: {{score.type === 'je' ? 'JE谱' : '乐谱文件'}}</text>
       </view>
     </view>
 
@@ -40,13 +39,28 @@
     </view>
 
     <!-- 文件内容 -->
-    <view class="score-content-card" wx:elif="{{score.type}}">
-      <view class="content-title">文件信息</view>
-      <view class="file-info">
+    <view class="score-content-card" wx:elif="{{score.type !== 'je'}}">
+      <view class="content-title">文件预览</view>
+
+      <!-- 图片预览 -->
+      <view wx:if="{{score.type === 'image'}}">
+        <image class="preview-image" bindtap="onImageTap" src="{{score.url}}" mode="widthFix" show-menu-by-longpress="{{true}}"></image>
+      </view>
+
+      <!-- PDF预览，但是我更倾向于叫查看，因为微信自己不能直接开pdf -->
+      <view wx:elif="{{score.type === 'pdf'}}">
+        <view class="pdf-preview-container">
+          <text class="pdf-preview-text">这是一个PDF文件，点击下方按钮在本地预览。</text>
+          <button class="preview-btn" bindtap="onPdfTap">预览PDF</button>
+        </view>
+      </view>
+
+      <!-- 其他文件类型 -->
+      <view wx:else class="file-info">
         <text>文件名: {{score.name || '未知文件'}}</text>
         <text wx:if="{{score.size}}">大小: {{score.sizeText}}</text>
+        <text class="unsupported-text">暂不支持预览此类型文件。</text>
       </view>
-      <!-- 这里可以添加文件预览或下载选项 -->
     </view>
 
     <!-- 无内容提示 -->
